@@ -100,7 +100,6 @@ def process_videos(input_folder, output_folder, ffmpeg_path, max_threads=10):
     total_videos = len(args_list)
     print(f"Starting parallel compression of {total_videos} videos...")
 
-    # Process videos in parallel using ThreadPoolExecutor
     start_time = time.time()
     with ThreadPoolExecutor(max_workers=max_threads) as executor:
         # Submit all tasks and get futures
@@ -110,13 +109,12 @@ def process_videos(input_folder, output_folder, ffmpeg_path, max_threads=10):
         completed = 0
         successful = 0
         for future in futures:
-            result = future.result()  # Wait for task to complete
+            result = future.result()
             completed += 1
             if result:
                 successful += 1
             print(f"Progress: {completed}/{total_videos} videos processed")
 
-    # Calculate and display summary
     total_time = time.time() - start_time
     failed = total_videos - successful
 
@@ -130,19 +128,16 @@ def process_videos(input_folder, output_folder, ffmpeg_path, max_threads=10):
 
 
 if __name__ == "__main__":
-    # Specify paths
-    input_folder = r"C:\Users\Breixo\Desktop\Proyecto Muddathir\Upload To FB"  # Carpeta con los videos originales
-    output_folder = r"C:\Users\Breixo\Desktop\Proyecto Muddathir\Compressed FB"  # Carpeta para videos comprimidos
-    ffmpeg_path = r"C:\ffmpeg\bin\ffmpeg.exe"
+    input_folder = r""  # Folder with original videos
+    output_folder = r""  # Folder for compressed videos
+    ffmpeg_path = r""
 
-    # Create output folder if it doesn't exist
     os.makedirs(output_folder, exist_ok=True)
 
-    # Check if FFmpeg exists
     if not os.path.exists(ffmpeg_path):
         print(f"Error: FFmpeg no encontrado en {ffmpeg_path}")
         print("Por favor, verifica la ruta de FFmpeg o instálalo si no lo tienes")
         exit(1)
 
     # Process all videos in the input folder
-    process_videos(input_folder, output_folder, ffmpeg_path, max_threads=10)
+    process_videos(input_folder, output_folder, ffmpeg_path, max_threads=10) # Adjust max_threads if needed
